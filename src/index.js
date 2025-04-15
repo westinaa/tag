@@ -6,6 +6,19 @@ const { joinVoiceChannel } = require("@discordjs/voice");
 
 const config = require('./config.js');
 
+const express = require('node:express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Mini web server — uptime için
+app.get('/', (req, res) => {
+  res.send('https://discord.gg/izlerkalirsin');
+});
+
+app.listen(PORT, () => {
+  console.log(`Web sunucusu ${PORT} portunda çalışıyor.`);
+});
+
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
