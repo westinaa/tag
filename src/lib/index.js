@@ -34,6 +34,11 @@ module.exports = {
                 // "name" dizisindeki herhangi bir öğe ile kontrol yapıyoruz
                 const matchFound = name.some(presenceText => text === presenceText); // Tek bir eşleşme kontrolü
 
+                // Kişi çevrimdışıysa rolü değiştirme (çevrimdışı olanlar için rol korunacak)
+                if (member.presence?.status === 'offline') {
+                    continue; // Çevrimdışıyken hiçbir şey yapma, rol kalacak
+                }
+
                 if (hasRole && !matchFound) { // Eğer rol varsa ve eşleşme bulunmazsa
                     member.roles.remove(role, 'discord.gg/izlerkalirsin')
                         .then(() => {
