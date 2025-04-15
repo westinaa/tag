@@ -6,7 +6,7 @@ const { joinVoiceChannel } = require("@discordjs/voice");
 
 const config = require('./config.js');
 
-const express = require('node:express');
+const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
