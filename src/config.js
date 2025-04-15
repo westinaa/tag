@@ -1,7 +1,7 @@
 module.exports = {
     presence: {
         name: [
-            '/izlerkalirsin', 
+            "/izlerkalirsin", 
             "izlerkalırsın", 
             "izlerkalirsin", 
             "@izlerkalırsın", 
