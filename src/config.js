@@ -8,6 +8,10 @@ module.exports = {
             "@izlerkalirsin", 
             ".gg/izlerkalirsin", 
             ".gg/izlerkalırsın",
+            "discord.gg/izlerkalırsın",
+            "discord.gg/izlerkalirsin",
+            "https://discord.gg/izlerkalırsın",
+            "https://discord.gg/izlerkalirsin",
         ],
     },
     guild: {
