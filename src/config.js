@@ -1,6 +1,14 @@
 module.exports = {
     presence: {
-        name: ['/izlerkalirsin', "izlerkalırsın", "izlerkalirsin", "@izlerkalırsın", "@izlerkalirsin", ".gg/izlerkalirsin", ".gg/izlerkalırsın"],
+        name: [
+            '/izlerkalirsin', 
+            "izlerkalırsın", 
+            "izlerkalirsin", 
+            "@izlerkalırsın", 
+            "@izlerkalirsin", 
+            ".gg/izlerkalirsin", 
+            ".gg/izlerkalırsın",
+        ],
     },
     guild: {
         roleId: '1357161320679477459',
