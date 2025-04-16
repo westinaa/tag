@@ -57,7 +57,7 @@ module.exports = {
                                 .setColor("Red")
                                 .setTitle('<a:nebakiypn:1361434527448432791> Bir kişi aramızdan ayrıldı. <:emoji_9:1358335169966112768>')
                                 .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL() })
-                                .setDescription(`• <@&${roleId}> rolü, ${member.displayName} durum mesajından \`tagı\`kaldırdığı için kendisinden **alındı**.`)
+                                .setDescription(`• <@&${roleId}> rolü, ${member.displayName} durum mesajından tagı kaldırdığı için kendisinden **alındı**.`)
                                 .setThumbnail(member.user.displayAvatarURL())
                                 .setFields([
                                     {
