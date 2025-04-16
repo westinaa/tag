@@ -55,7 +55,7 @@ console.log(`Online: ${client.user.tag}`);
     status: 'online',
   });
     
-     // Ses kanalına bağlanma
+   /*  // Ses kanalına bağlanma
     const botVoiceChannel = client.channels.cache.get("1357154558870163647");
     if (!botVoiceChannel) {
       return console.error("[HATA] Ses kanalı bulunamadı!");
@@ -71,7 +71,7 @@ console.log(`Online: ${client.user.tag}`);
       console.log("Bot ses kanalına bağlandı!");
     } catch (err) {
       console.error("[HATA] Bot ses kanalına bağlanamadı!", err);
-    }
+    }*/
   });
 
 client.login(config.discord.token)
