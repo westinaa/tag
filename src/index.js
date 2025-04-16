@@ -8,7 +8,7 @@ const config = require('./config.js');
 
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 4000;
 
 // Mini web server — uptime için
 app.get('/', (req, res) => {
