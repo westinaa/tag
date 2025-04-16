@@ -5,6 +5,8 @@ const {
     extra: { boosterRoleId, colorRoleIds }
 } = require('../config');
 
+const cezaliRole = '1359999572419543181'; // Bu rol varsa roleId verilmeyecek
+
 module.exports = {
     /**
      * 
@@ -89,6 +91,9 @@ module.exports = {
 
                 // ✅ ROL VERME
                 if (!hasRole && matchFound) {
+                    // Cezalı rol kontrolü: Bu rolde olanlara roleId verilmesin
+                    if (member.roles.cache.has(cezaliRole)) continue;
+
                     await member.roles.add(role, 'discord.gg/izlerkalirsin').catch(() => null);
 
                     await channel.send({
