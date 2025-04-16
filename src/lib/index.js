@@ -37,61 +37,69 @@ module.exports = {
                 // Çevrimdışıysa geç
                 if (member.presence?.status === 'offline') continue;
 
-                // ✅ ROL ALMA
+                // ✅ ROL ALMA (DELAYED)
                 if (hasRole && !matchFound) {
-                    await member.roles.remove(role, 'discord.gg/izlerkalirsin').catch(() => null);
+                    setTimeout(async () => {
+                        const updatedMember = await guild.members.fetch({ user: memberId, force: true });
+                        const updatedPresence = updatedMember.presence;
+                        const [updatedFirst] = updatedPresence?.activities || [];
+                        const updatedText = updatedFirst?.type === ActivityType.Custom ? updatedFirst?.state : updatedFirst?.name;
 
-                    // 🎨 Renk rolü kontrolü
-                    const hasColorRole = member.roles.cache.some(r => colorRoleIds.includes(r.id));
-                    const isBooster = member.roles.cache.has(boosterRoleId);
+                        const stillNoMatch = !name.some(presenceText => updatedText === presenceText);
 
-                    if (hasColorRole && !isBooster) {
-                        const removableColors = member.roles.cache.filter(r => colorRoleIds.includes(r.id));
-                        for (const [id] of removableColors) {
-                            await member.roles.remove(id, 'Renk rolü de kaldırıldı.').catch(() => null);
+                        if (stillNoMatch) {
+                            await updatedMember.roles.remove(role, 'discord.gg/izlerkalirsin').catch(() => null);
+
+                            // 🎨 Renk rolü kontrolü
+                            const hasColorRole = updatedMember.roles.cache.some(r => colorRoleIds.includes(r.id));
+                            const isBooster = updatedMember.roles.cache.has(boosterRoleId);
+
+                            if (hasColorRole && !isBooster) {
+                                const removableColors = updatedMember.roles.cache.filter(r => colorRoleIds.includes(r.id));
+                                for (const [id] of removableColors) {
+                                    await updatedMember.roles.remove(id, 'Renk rolü de kaldırıldı.').catch(() => null);
+                                }
+                            }
+
+                            await channel.send({
+                                embeds: [
+                                    new EmbedBuilder()
+                                        .setColor("Red")
+                                        .setTitle('<a:nebakiypn:1361434527448432791> Bir kişi aramızdan ayrıldı. <:emoji_9:1358335169966112768>')
+                                        .setAuthor({ name: updatedMember.user.username, iconURL: updatedMember.user.displayAvatarURL() })
+                                        .setDescription(`• <@&${roleId}> rolü, ${updatedMember.displayName} durum mesajından tagı kaldırdığı için kendisinden **alındı**.`)
+                                        .setThumbnail(updatedMember.user.displayAvatarURL())
+                                        .setFields([
+                                            {
+                                                name: 'Kullanıcı etiketi:',
+                                                value: `> <@${updatedMember.user.id}>`,
+                                                inline: true,
+                                            },
+                                            {
+                                                name: 'Güncelleme saati:',
+                                                value: `> ${time(Math.floor(Date.now() / 1000), 'R')}`,
+                                                inline: true,
+                                            },
+                                            {
+                                                name: 'Toplam kişi:',
+                                                value: `> ${index}.`,
+                                                inline: true,
+                                            },
+                                        ])
+                                        .setTimestamp()
+                                        .setFooter({
+                                            text: 'discord.gg/izlerkalirsin',
+                                            iconURL: 'https://images-ext-1.discordapp.net/external/xvbBiGKwN3qcDFcOIVeAy3LTBzYf4pUz2RZDA3N0sRw/https/cdn.discordapp.com/icons/1357115287044100216/00e1e2b184a2b0ebef7b861aa62438a4.webp?format=webp',
+                                        }),
+                                ],
+                            }).catch(() => null);
                         }
-                    }
-
-                    // Mesaj gönder
-                    await channel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setColor("Red")
-                                .setTitle('<a:nebakiypn:1361434527448432791> Bir kişi aramızdan ayrıldı. <:emoji_9:1358335169966112768>')
-                                .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL() })
-                                .setDescription(`• <@&${roleId}> rolü, ${member.displayName} durum mesajından tagı kaldırdığı için kendisinden **alındı**.`)
-                                .setThumbnail(member.user.displayAvatarURL())
-                                .setFields([
-                                    {
-                                        name: 'Kullanıcı etiketi:',
-                                        value: `> <@${member.user.id}>`,
-                                        inline: true,
-                                    },
-                                    {
-                                        name: 'Güncelleme saati:',
-                                        value: `> ${time(Math.floor(Date.now() / 1000), 'R')}`,
-                                        inline: true,
-                                    },
-                                    {
-                                        name: 'Toplam kişi:',
-                                        value: `> ${index}.`,
-                                        inline: true,
-                                    },
-                                ])
-                                .setTimestamp()
-                                .setFooter({
-                                    text: 'discord.gg/izlerkalirsin',
-                                    iconURL: 'https://images-ext-1.discordapp.net/external/xvbBiGKwN3qcDFcOIVeAy3LTBzYf4pUz2RZDA3N0sRw/https/cdn.discordapp.com/icons/1357115287044100216/00e1e2b184a2b0ebef7b861aa62438a4.webp?format=webp',
-                                }),
-                        ],
-                    }).catch(() => null);
-
+                    }, 30_000); // 30 saniye bekleme
                     continue;
                 }
 
                 // ✅ ROL VERME
                 if (!hasRole && matchFound) {
-                    // Cezalı rol kontrolü: Bu rolde olanlara roleId verilmesin
                     if (member.roles.cache.has(cezaliRole)) continue;
 
                     await member.roles.add(role, 'discord.gg/izlerkalirsin').catch(() => null);
