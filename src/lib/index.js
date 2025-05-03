@@ -54,12 +54,12 @@ module.exports = {
                             const hasColorRole = updatedMember.roles.cache.some(r => colorRoleIds.includes(r.id));
                             const isBooster = updatedMember.roles.cache.has(boosterRoleId);
 
-                            if (hasColorRole && !isBooster) {
+                            /*if (hasColorRole && !isBooster) {
                                 const removableColors = updatedMember.roles.cache.filter(r => colorRoleIds.includes(r.id));
                                 for (const [id] of removableColors) {
                                     await updatedMember.roles.remove(id, 'Renk rolü de kaldırıldı.').catch(() => null);
                                 }
-                            }
+                            }*/
 
                             await channel.send({
                                 embeds: [
